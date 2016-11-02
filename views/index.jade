@@ -3,4 +3,13 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
-  h2 hola
+
+  
+  div(ng-controller='BooksController as book', ng-cloak)
+    h1 {{ book.book.name }}
+    h3 {{ book.book.autor }}
+    p {{ book.book.descripcion }}
+    p {{ msg }}
+    br
+    input(type='text', ng-model='msg')
+    button.btn-primary#btn(type="button", ng-click='msg="ola"') submit
