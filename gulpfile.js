@@ -35,7 +35,8 @@ gulp.task("min:js", function () {
 
 gulp.task("min:css", function () {
     return gulp.src([
-        'bower_components/bootstrap/dist/css/bootstrap.css',])
+        'bower_components/bootstrap/dist/css/bootstrap.css',
+        'bower_components/materialize/dist/css/materialize.css',])
         .pipe(sourcemaps.init())
         .pipe(cleanCSS())
         .pipe(sourcemaps.write())
