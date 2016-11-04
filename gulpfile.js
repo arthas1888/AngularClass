@@ -3,38 +3,45 @@ var cleanCSS = require('gulp-clean-css');
 var sourcemaps = require('gulp-sourcemaps');
 var rename = require('gulp-rename');
 var minify = require('gulp-minify');
-var concat = require("gulp-concat");
+var concat = require("gulp-concat"),
+    rimraf = require("rimraf"),
+    cssmin = require("gulp-cssmin"),
+    uglify = require("gulp-uglify");
 
 
-gulp.task('default', function() {
-  // place code for your default task here
+var paths = {};
+paths.concatJsDest = "public/javascripts/vendor.min.js";
+paths.concatCssDest = "public/stylesheets/vendor.min.css";
+
+gulp.task("clean:js", function (cb) {
+    rimraf(paths.concatJsDest, cb);
 });
 
-gulp.task('minify-js', function() {
-    //'lib/*.js'
-  gulp.src([
-        'bower_components/angular/angular.js',
-        'bower_components/jquery/dist/jquery.min.js',
-        'bower_components/bootstrap/dist/js/bootstrap.min.js',                       
-            ])
-    .pipe(minify({
-        ext:{
-            src:'-debug.js',
-            min:'.js'
-        }}))    
-    .pipe(concat('vendor.js'))
-    .pipe(rename({ suffix: '.min',}))
-    .pipe(gulp.dest('public/javascripts'))
+gulp.task("clean:css", function (cb) {
+    rimraf(paths.concatCssDest, cb);
 });
 
-gulp.task('minify-css', function() {
-    //gulp.src('/src/*.css')
+gulp.task("clean", ["clean:js", "clean:css"]);
+
+gulp.task("min:js", function () {
     return gulp.src([
-            'bower_components/bootstrap/dist/css/bootstrap.css',           
-            ])
+        'bower_components/angular/angular.js',
+        'bower_components/jquery/dist/jquery.js',
+        'bower_components/bootstrap/dist/js/bootstrap.js',], { base: "." })
+        .pipe(concat(paths.concatJsDest))
+        .pipe(uglify())
+        .pipe(gulp.dest("."));
+});
+
+gulp.task("min:css", function () {
+    return gulp.src([
+        'bower_components/bootstrap/dist/css/bootstrap.css',])
         .pipe(sourcemaps.init())
         .pipe(cleanCSS())
         .pipe(sourcemaps.write())
-        .pipe(rename({ suffix: '.min', basename: "vendor", }))
-        .pipe(gulp.dest('public/stylesheets'));
-    });
+        .pipe(concat(paths.concatCssDest))
+        .pipe(cssmin())
+        .pipe(gulp.dest("."));
+});
+
+gulp.task("min", ["min:js", "min:css"]);
