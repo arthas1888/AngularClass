@@ -1,4 +1,4 @@
-var book = {
+/*var book = {
     "year": "1967",
     "name": "Cien años de soledad",
     "autor": "Gabriel Garcia",
@@ -6,10 +6,11 @@ var book = {
     "price": 5,
     "canPurchase": false,
     "agotado": false,
-};
+};*/
 
 var books = [
     {
+        "id": 122325,
         "year": "1967",
         "name": "Cien años de soledad",
         "autor": "Gabriel Garcia",

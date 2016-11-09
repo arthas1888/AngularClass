@@ -3,22 +3,29 @@ extends layout
 block content
   //h1= title
   //p Welcome to #{title}
+
   br
   .row
     .col-md-2
     div.col-md-8(ng-controller='BooksController', ng-cloak)
-      div(ng-repeat="book in books", ng-hide="book.agotado")
+      //hr
+      //{{fecha | date:'medium'}}
+      //br
+      //p {{ msg }}
+      //br
+      //input(type='text', ng-model='msg')
+      //button.btn.btn-primary#btn(type="button", ng-click='msg="ola"') cambiar valor msg
+      //hr
+      input(type='text', ng-model='buscar', placeholder="Buscar...")
+      div(ng-repeat="book in books | filter:buscar", ng-hide="book.agotado")
+        //{{$index}}
         h1 {{ book.name }}
-        h3 {{ book.autor }} - {{ book.price }} USD
-        p {{ book.descripcion }}
+        h3 {{ book.autor }} - {{ book.price | currency : "USD $" : number }}
+        p {{ book.descripcion | customFilter : "8" }}
         button.btn.btn-primary(type="button", ng-if="book.canPurchase") Comprar
         hr      
     .col-md-2
 
   hr
-  //br
-  //br
-  //p {{ msg }}
-  //br
-  //input(type='text', ng-model='msg')
-  //button.btn-primary#btn(type="button", ng-click='msg="ola"') submit
+  br
+  
