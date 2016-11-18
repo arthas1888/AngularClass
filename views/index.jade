@@ -19,6 +19,58 @@ block content
       input(type='text', ng-model='buscar', placeholder="Buscar...")
       div(ng-repeat="book in books | filter:buscar", ng-hide="book.agotado")
         //{{$index}}
+        .row
+          .col-md-6
+            img(ng-src="{{book.image}}", width="200")
+          .col-md-6
+            section(ng-controller="PanelController")
+              ul.nav.nav-tabs
+                li(role="presentation", ng-class="{active:isSelected(1)}")
+                  a(href='', ng-click="selecTab(1)") Descripcion
+                li(role="presentation", ng-class="{active:isSelected(2)}")
+                  a(href='', ng-click="selecTab(2)") Especificaciones
+                li(role="presentation", ng-class="{active:isSelected(3)}")
+                  a(href='', ng-click="selecTab(3)") Comentarios
+              br
+              
+              .panel(ng-show="isSelected(1)")
+                h4 Descripcion
+                p {{ book.descripcion }}
+              .panel(ng-show="isSelected(2)")
+                h4 Especificaciones
+                blockquote Nada aun
+              .panel(ng-show="isSelected(3)")
+                h4 Comentarios
+
+                form(name='reviewForm', ng-controller="ReviewController",
+                 ng-submit="reviewForm.$valid && submit()")
+
+                  blockquote(ng-repeat="review in book.comentarios")
+                      b {{review.estrellas}} Estrellas
+                      p {{review.cuerpo}}
+                      cite Por: {{review.autor}}
+                    br
+
+                  select.form-control(ng-model="model.estrellas", required)
+                      option(value='' selected disabled) Selecciona la Calificacion
+                      option(value='1') 1 estrella
+                      option(value='2') 2 estrellas
+                      option(value='3') 3 estrellas
+                      option(value='4') 4 estrellas
+                      option(value='5') 5 estrellas   
+                  br                  
+                  textarea.form-control(placeholder="Escriba un corto comentario del libro", rows="3",
+                  ng-model="model.cuerpo" required)
+                  br
+                  .input-group
+                    span.input-group-addon Por:
+                    input.form-control(type='email', placeholder="Digite el correo electronico",
+                    ng-model="model.autor" required)
+                  br
+                  p reviewForm es {{ reviewForm.$valid }}
+                  
+                  input.btn.btn-primary(type='submit', value='Agregar Comentario', ng-disabled="!reviewForm.$valid")
+        br
         h1 {{ book.name }}
         h3 {{ book.autor }} - {{ book.price | currency : "USD $" : number }}
         p {{ book.descripcion | customFilter : "8" }}
