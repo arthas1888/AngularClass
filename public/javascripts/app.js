@@ -1,4 +1,4 @@
-var app = angular.module('AngularApp', []);
+var app = angular.module('AngularApp', ['ngMessages']);
 
 app.filter('customFilter', function(){
 

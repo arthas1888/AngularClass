@@ -19,3 +19,15 @@ img {
     display: block;
     margin-left: auto;
     margin-right: auto }
+
+.ng-invalid.ng-dirty{
+  border-color: red !important;
+}
+
+.ng-valid.ng-dirty{
+  border-color: green !important;
+}
+
+.help-block{
+  color: red !important;
+}

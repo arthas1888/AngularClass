@@ -17,6 +17,7 @@
   "dependencies": {
     "angular": "^1.5.8",
     "bootstrap": "^3.3.7",
-    "materialize": "^0.97.8"
+    "materialize": "^0.97.8",
+    "angular-messages": "^1.5.8"
   }
 }
