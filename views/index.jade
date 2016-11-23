@@ -23,83 +23,10 @@ block content
           .col-md-6
             img(ng-src="{{book.image}}", width="200")
           .col-md-6
-            section(ng-controller="PanelController")
-              ul.nav.nav-tabs
-                li(role="presentation", ng-class="{active:isSelected(1)}")
-                  a(href='', ng-click="selecTab(1)") Descripcion
-                li(role="presentation", ng-class="{active:isSelected(2)}")
-                  a(href='', ng-click="selecTab(2)") Especificaciones
-                li(role="presentation", ng-class="{active:isSelected(3)}")
-                  a(href='', ng-click="selecTab(3)") Comentarios
-              br
-              
-              .panel(ng-show="isSelected(1)")
-                h4 Descripcion
-                p {{ book.descripcion }}
-              .panel(ng-show="isSelected(2)")
-                h4 Especificaciones
-                blockquote Nada aun
-              .panel(ng-show="isSelected(3)")
-                h4 Comentarios
-
-                form(name='reviewForm', ng-controller="ReviewController",
-                 ng-submit="reviewForm.$valid && submit()" novalidate)
-
-                  blockquote(ng-repeat="review in book.comentarios")
-                      b {{review.estrellas}} Estrellas
-                      p {{review.cuerpo}}
-                      cite Por: {{review.autor}}
-                    br
-
-                  select.form-control(ng-model="model.estrellas", name="estrellas" required)
-                      option(value='' selected disabled) Selecciona la Calificacion
-                      option(value='1') 1 estrella
-                      option(value='2') 2 estrellas
-                      option(value='3') 3 estrellas
-                      option(value='4') 4 estrellas
-                      option(value='5') 5 estrellas 
-                  div(ng-messages="reviewForm.estrellas.$error" ng-if="reviewForm.estrellas.$dirty")
-                    span.help-block(ng-message="required") Este campo es obligatorio 
-                  br   
-
-                  //input.form-control(type="number" placeholder="Escriba un numero", min=10 max=999
-                  //ng-model="model.cantidad" name="cantidad" required)                  
-                  //div(ng-messages="reviewForm.cantidad.$error" ng-if="reviewForm.cantidad.$dirty")
-                    span.help-block(ng-message="required") Este campo es obligatorio
-                    span.help-block(ng-message="number") Este campo solo acepta valores numericos
-                    span.help-block(ng-message="min") Digite un valor mayor a 9
-                    span.help-block(ng-message="max") Digite un valor menor de 1000
-                  //br
-
-                  input.form-control(placeholder="Escriba su nombre" ng-minlength="2" ng-maxlength="10" 
-                  pattern="[A-Za-z]+" ng-model="model.nombre" name="nombre" required)
-                  div(ng-messages="reviewForm.nombre.$error" ng-if="reviewForm.nombre.$dirty")
-                    span.help-block(ng-message="required") Este campo es obligatorio 
-                    span.help-block(ng-message="minlength") Nombre muy corto
-                    span.help-block(ng-message="maxlength") Nombre muy largo 
-                    span.help-block(ng-message="pattern") Digite solo caracteres alfabeticos 
-                  br  
-
-                  textarea.form-control(placeholder="Escriba un corto comentario del libro", rows="3",
-                  ng-model="model.cuerpo" name="cuerpo" required)                  
-                  div(ng-messages="reviewForm.cuerpo.$error" ng-if="reviewForm.cuerpo.$dirty")
-                    span.help-block(ng-message="required") Este campo es obligatorio
-                  br
-                  .input-group
-                    span.input-group-addon Por:
-                    input.form-control(type="email" name="autor" placeholder="Digite el correo electronico",
-                    ng-model="model.autor" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required)
-                  div(ng-messages="reviewForm.autor.$error" ng-if="reviewForm.autor.$dirty")
-                    span.help-block(ng-message="required") Este campo es obligatorio
-                    span.help-block(ng-message="email") Formato incorrecto escriba un correo electronico valido
-                    span.help-block(ng-message="pattern") Formato incorrecto escriba un correo electronico valido
-                  br
-                  //p reviewForm es {{ reviewForm.$valid }}
-                  
-                  input.btn.btn-primary(type='submit', value='Agregar Comentario', ng-disabled="!reviewForm.$valid")
+            book-panel(ng-controller="PanelController")
         br
-        h1 {{ book.name }}
-        h3 {{ book.autor }} - {{ book.price | currency : "USD $" : number }}
+        //div(ng-include="'views/book-title.html'")
+        div(book-title)     
         p {{ book.descripcion | customFilter : "8" }}
         button.btn.btn-primary(type="button", ng-if="book.canPurchase") Comprar
         hr      

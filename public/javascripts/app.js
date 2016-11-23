@@ -8,3 +8,17 @@ app.filter('customFilter', function(){
     return reemplazarLetras;
     
 });
+
+app.directive("bookTitle", function(){
+    return{
+        restrict: 'A',
+        templateUrl: 'views/book-title.html'
+    };
+});
+
+app.directive("bookPanel", function(){
+    return{
+        restrict: 'E',
+        templateUrl: 'views/book-panel.html'
+    };
+});

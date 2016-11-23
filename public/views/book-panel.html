@@ -1,0 +1,61 @@
+<section>
+    <ul class="nav nav-tabs">
+        <li role="presentation" ng-class="{active:isSelected(1)}"><a href="" ng-click="selecTab(1)">Descripcion</a></li>
+        <li role="presentation" ng-class="{active:isSelected(2)}"><a href="" ng-click="selecTab(2)">Especificaciones</a></li>
+        <li role="presentation" ng-class="{active:isSelected(3)}"><a href="" ng-click="selecTab(3)">Comentarios</a></li>
+    </ul><br>
+    <div ng-show="isSelected(1)" class="panel">
+        <h4>Descripcion</h4>
+        <p>{{ book.descripcion }}</p>
+    </div>
+    <div ng-show="isSelected(2)" class="panel">
+        <h4>Especificaciones</h4>
+        <blockquote>Nada aun</blockquote>
+    </div>
+    <div ng-show="isSelected(3)" class="panel">
+        <h4>Comentarios</h4>
+        <form name="reviewForm" ng-controller="ReviewController" ng-submit="reviewForm.$valid &amp;&amp; submit()" novalidate>
+            <blockquote ng-repeat="review in book.comentarios"><b>{{review.estrellas}} Estrellas</b>
+                <p>{{review.cuerpo}}</p>
+                <cite>Por: {{review.autor}}</cite>
+            </blockquote><br>
+            <select ng-model="model.estrellas" name="estrellas" required class="form-control">
+            <option value="" selected disabled>Selecciona la Calificacion</option>
+            <option value="1">1 estrella</option>
+            <option value="2">2 estrellas</option>
+            <option value="3">3 estrellas</option>
+            <option value="4">4 estrellas</option>
+            <option value="5">5 estrellas </option>
+          </select>
+            <div ng-messages="reviewForm.estrellas.$error" ng-if="reviewForm.estrellas.$dirty"><span ng-message="required" class="help-block">Este campo es obligatorio </span></div><br>
+            <!--input.form-control(type="number" placeholder="Escriba un numero", min=10 max=999-->
+            <!--ng-model="model.cantidad" name="cantidad" required)                  -->
+            <!--div(ng-messages="reviewForm.cantidad.$error" ng-if="reviewForm.cantidad.$dirty")
+          span.help-block(ng-message="required") Este campo es obligatorio
+          span.help-block(ng-message="number") Este campo solo acepta valores numericos
+          span.help-block(ng-message="min") Digite un valor mayor a 9
+          span.help-block(ng-message="max") Digite un valor menor de 1000
+          -->
+            <!--br-->
+            <input placeholder="Escriba su nombre" ng-minlength="2" ng-maxlength="10" pattern="[A-Za-z]+" ng-model="model.nombre" name="nombre"
+                required class="form-control">
+            <div ng-messages="reviewForm.nombre.$error" ng-if="reviewForm.nombre.$dirty"><span ng-message="required" class="help-block">Este campo es obligatorio </span><span ng-message="minlength"
+                    class="help-block">Nombre muy corto</span><span ng-message="maxlength" class="help-block">Nombre muy largo </span>
+                <span
+                    ng-message="pattern" class="help-block">Digite solo caracteres alfabeticos </span>
+            </div><br>
+            <textarea placeholder="Escriba un corto comentario del libro" rows="3" ng-model="model.cuerpo" name="cuerpo" required class="form-control">                 </textarea>
+            <div ng-messages="reviewForm.cuerpo.$error" ng-if="reviewForm.cuerpo.$dirty"><span ng-message="required" class="help-block">Este campo es obligatorio</span></div><br>
+            <div class="input-group"><span class="input-group-addon">Por:</span>
+                <input type="email" name="autor" placeholder="Digite el correo electronico" ng-model="model.autor" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$"
+                    required class="form-control">
+            </div>
+            <div ng-messages="reviewForm.autor.$error" ng-if="reviewForm.autor.$dirty"><span ng-message="required" class="help-block">Este campo es obligatorio</span><span ng-message="email" class="help-block">Formato incorrecto escriba un correo electronico valido</span>
+                <span
+                    ng-message="pattern" class="help-block">Formato incorrecto escriba un correo electronico valido</span>
+            </div><br>
+            <!--p reviewForm es {{ reviewForm.$valid }}-->
+            <input type="submit" value="Agregar Comentario" ng-disabled="!reviewForm.$valid" class="btn btn-primary">
+        </form>
+    </div>
+</section>
