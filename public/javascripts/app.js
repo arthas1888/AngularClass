@@ -6,4 +6,5 @@ app.filter('customFilter', function(){
         return datosOriginales.replace(RegExp("o", "g"), arg);
     };
     return reemplazarLetras;
+    
 });

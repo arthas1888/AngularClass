@@ -1,0 +1,41 @@
+extends layout
+
+block content
+    .row
+        .col-md-2
+        div.col-md-8(ng-controller="RegisterController")
+            .text-center(style='padding:40px 0')
+            h3 Formulario de Registrar Usuario
+            // Main Form
+            .login-form-1
+                form(name='registerForm' ng-submit="registerForm.$valid && submit()" novalidate)               
+                    .main-login-form
+                        .login-group
+                        .form-group
+                            label.sr-only(for='username') Username
+                            input#username.form-control(type='text', name='username', placeholder='username',
+                            ng-minlength="2" ng-maxlength="10", pattern="[A-Za-z]+" ng-model="model.username", required)
+                        div(ng-messages="registerForm.username.$error" ng-if="registerForm.username.$dirty")
+                            span.help-block(ng-message="required") Este campo es obligatorio 
+                            span.help-block(ng-message="minlength") Nombre muy corto
+                            span.help-block(ng-message="maxlength") Nombre muy largo 
+                            span.help-block(ng-message="pattern") Digite solo caracteres alfabeticos 
+                        
+                        .form-group
+                            label.sr-only(for='password') Password
+                            input#password.form-control(type='password', name='password', placeholder='password'
+                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required ng-model="model.password",)
+                        div(ng-messages="registerForm.password.$error" ng-if="registerForm.password.$dirty")
+                            span.help-block(ng-message="required") Este campo es obligatorio
+                            span.help-block(ng-message="pattern") La contraseña debe tener al menos 8 caracteres alfanumericos con una mayuscula 
+                          
+                        .form-group
+                            label.sr-only(for='confirm_password') Confirm Password
+                            input#confirm_password.form-control(type='password', name='confirm_password', placeholder='confirm password'
+                            required ng-model="model.confirm_password")
+                        div(ng-messages="registerForm.confirm_password.$error" ng-if="registerForm.confirm_password.$dirty")
+                            span.help-block(ng-message="required") Este campo es obligatorio
+                            span.help-block(ng-if="!flag") Las contraseñas no coinciden
+                        button.btn(type='submit' ng-disabled="!registerForm.$valid || !flag") Registrar
+        .col-md-2
+           
