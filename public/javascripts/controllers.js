@@ -5,6 +5,7 @@ app.controller('ReviewController', ReviewController);
 app.controller('RegisterController', RegisterController);
 app.controller('PlaylistController', PlaylistController);
 app.controller('PlaylistUpdateController', PlaylistUpdateController);
+app.controller('PromesaController', PromesaController);
 
 BooksController.$inject = ['$scope'];
 function BooksController($scope) {
@@ -46,9 +47,9 @@ function ReviewController($scope) {
         cuerpo: "",
         autor: ""
     };
-    console.log("review: ", $scope.model );
+    console.log("review: ", $scope.model);
 
-    $scope.submit = function(){
+    $scope.submit = function () {
         console.log("entra aca", $scope.model);
         $scope.book.comentarios.push($scope.model);
         $scope.model = {};
@@ -61,14 +62,14 @@ function RegisterController($scope, $window, $location) {
     $scope.model.password = "";
     $scope.flag = false;
 
-    $scope.$watch('model.confirm_password', function (newValue, oldValue) {        
-        if (newValue === $scope.model.password && newValue.length > 0 && $scope.model.password.length > 0){
-            $scope.flag = true;            
-        }else{
+    $scope.$watch('model.confirm_password', function (newValue, oldValue) {
+        if (newValue === $scope.model.password && newValue.length > 0 && $scope.model.password.length > 0) {
+            $scope.flag = true;
+        } else {
             $scope.flag = false;
         }
     });
-    $scope.submit = function(){
+    $scope.submit = function () {
         console.log("entra");
         $window.open("/", "_self");
         //$location.path('/someNewPath')
@@ -84,17 +85,58 @@ function PlaylistController($scope, PlaylistFactory, PlaylistService, Playlist) 
 PlaylistUpdateController.$inject = ['$scope', 'PlaylistFactory', 'PlaylistService', 'Playlist'];
 function PlaylistUpdateController($scope, PlaylistFactory, PlaylistService, Playlist) {
     $scope.playlist = Playlist.listar();
-    $scope.borrar = function(id){
+    $scope.borrar = function (id) {
         Playlist.borrar(id);
     };
     $scope.model = {};
-    $scope.add = function(){
+    $scope.add = function () {
         var s = $scope.model.cancion;
-        if (s !== ""){
+        if (s !== "") {
             PlaylistService.agregar(s);
             s = null;
             $scope.model.cancion = "";
         }
     };
-    
+
+}
+
+PromesaController.$inject = ['$scope', '$q'];
+function PromesaController($scope, $q) {
+
+    $scope.server = "verificando...";
+    $scope.http = "verificando...";
+
+    var checkServer = function () {
+        var def = $q.defer();
+        setTimeout(function () {
+            def.resolve('Online');
+            console.log("Online");
+            $scope.server = "Online";
+        }, 2000);
+        return def.promise;
+    };
+
+    var checkHttp = function () {
+        var def = $q.defer();
+        setTimeout(function () {
+            if (Math.floor(Math.random() * 100) > 50) {
+                def.resolve('Online');
+            } else {
+                def.reject('El servicio no esta disponible');
+            }
+        }, 3000);
+        return def.promise;
+    };
+
+    checkServer().then(function (result) {
+        $scope.server = result;
+    });
+
+    checkHttp().then(
+        function (result) {
+            $scope.http = result;
+        }, function (error) {
+            $scope.http = error;
+        });
+
 }

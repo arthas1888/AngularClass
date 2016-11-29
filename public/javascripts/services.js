@@ -73,7 +73,7 @@ app.provider("Playlist", [function () {
     };
     return {
         concatenar: concatenar,
-        $get: function(){
+        $get: function () {
             return {
                 listar: listar,
                 borrar: borrar

@@ -14,4 +14,8 @@ router.get('/playlist', function(req, res, next) {
   res.render('playlist', { title: 'playlist' });
 });
 
+router.get('/promesas', function(req, res, next) {
+  res.render('promesas', { title: 'promesas' });
+});
+
 module.exports = router;

@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    .container
+        h3 Promesas AngularJS
+    .row
+        .col-md-2
+        .col-md-8(ng-controller="PromesaController")
+            h3 Servidor: {{server}}
+            h3 Http: {{http}}
+            br
+            input.form-control(ng-model="word" name="word") 
+        .col-md-2
