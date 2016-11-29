@@ -1,0 +1,22 @@
+extends layout
+
+block content
+    .container
+        h3 Discografia Sting
+    .row
+        .col-md-6
+            .container(ng-controller="PlaylistController")
+                ol
+                    li( ng-repeat="song in playlist") {{song}}
+        .col-md-6
+            .container(ng-controller="PlaylistUpdateController" ng-submit="add()")
+                form(name="SongForm")
+                    input(ng-model="model.cancion" type="text" required)
+                    button.btn(type=submit ng-disabled="!SongForm.$valid") Agregar Cancion
+                br
+                br
+                ol
+                    li( ng-repeat="song in playlist") {{song}}
+                        a(ng-click="borrar($index)") X
+    
+    

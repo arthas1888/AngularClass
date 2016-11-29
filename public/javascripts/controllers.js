@@ -3,6 +3,8 @@ app.controller('CustomController', CustomController);
 app.controller('PanelController', PanelController);
 app.controller('ReviewController', ReviewController);
 app.controller('RegisterController', RegisterController);
+app.controller('PlaylistController', PlaylistController);
+app.controller('PlaylistUpdateController', PlaylistUpdateController);
 
 BooksController.$inject = ['$scope'];
 function BooksController($scope) {
@@ -72,4 +74,27 @@ function RegisterController($scope, $window, $location) {
         //$location.path('/someNewPath')
         //$location.href = "/";
     };
+}
+
+PlaylistController.$inject = ['$scope', 'PlaylistFactory', 'PlaylistService', 'Playlist'];
+function PlaylistController($scope, PlaylistFactory, PlaylistService, Playlist) {
+    $scope.playlist = Playlist.listar();
+}
+
+PlaylistUpdateController.$inject = ['$scope', 'PlaylistFactory', 'PlaylistService', 'Playlist'];
+function PlaylistUpdateController($scope, PlaylistFactory, PlaylistService, Playlist) {
+    $scope.playlist = Playlist.listar();
+    $scope.borrar = function(id){
+        Playlist.borrar(id);
+    };
+    $scope.model = {};
+    $scope.add = function(){
+        var s = $scope.model.cancion;
+        if (s !== ""){
+            PlaylistService.agregar(s);
+            s = null;
+            $scope.model.cancion = "";
+        }
+    };
+    
 }

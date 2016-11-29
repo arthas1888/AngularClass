@@ -1,23 +1,37 @@
 var app = angular.module('AngularApp', ['ngMessages']);
 
-app.filter('customFilter', function(){
+app.config(['PlaylistProvider', function (PlaylistProvider) {
 
-    var reemplazarLetras = function(datosOriginales, arg){
+    var playlist2 = [
+        "Seven Days",
+        "Saint Augustine In Hell",
+        "It's Probably Me",
+        "Shape Of My Heart",
+        "Something The Boy Said",
+        "Epilogue (Nothing 'Bout Me)",
+    ];
+    PlaylistProvider.concatenar(playlist2);
+
+}]);
+
+app.filter('customFilter', function () {
+
+    var reemplazarLetras = function (datosOriginales, arg) {
         return datosOriginales.replace(RegExp("o", "g"), arg);
     };
     return reemplazarLetras;
-    
+
 });
 
-app.directive("bookTitle", function(){
-    return{
+app.directive("bookTitle", function () {
+    return {
         restrict: 'A',
         templateUrl: 'views/book-title.html'
     };
 });
 
-app.directive("bookPanel", function(){
-    return{
+app.directive("bookPanel", function () {
+    return {
         restrict: 'E',
         templateUrl: 'views/book-panel.html'
     };
