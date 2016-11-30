@@ -6,6 +6,11 @@ app.controller('RegisterController', RegisterController);
 app.controller('PlaylistController', PlaylistController);
 app.controller('PlaylistUpdateController', PlaylistUpdateController);
 app.controller('PromesaController', PromesaController);
+app.controller('ManyPromesaController', ManyPromesaController);
+app.controller('ScrollController', ScrollController);
+app.controller('Cache1Controller', Cache1Controller);
+app.controller('Cache2Controller', Cache2Controller);
+
 
 BooksController.$inject = ['$scope'];
 function BooksController($scope) {
@@ -100,28 +105,40 @@ function PlaylistUpdateController($scope, PlaylistFactory, PlaylistService, Play
 
 }
 
-PromesaController.$inject = ['$scope', '$q'];
-function PromesaController($scope, $q) {
+PromesaController.$inject = ['$scope', '$q', '$timeout'];
+function PromesaController($scope, $q, $timeout) {
+
+    
 
     $scope.server = "verificando...";
     $scope.http = "verificando...";
 
-    var checkServer = function () {
+    var checkServer = function(){
+        return $timeout(function(param1){
+            return param1;
+        }, 2000, true, "Online");
+    };
+
+    /*var checkServer = function () {
         var def = $q.defer();
         setTimeout(function () {
             def.resolve('Online');
-            console.log("Online");
+            def.notify('Online');
+            //console.log("Online");
             $scope.server = "Online";
         }, 2000);
         return def.promise;
-    };
+    };*/
 
     var checkHttp = function () {
         var def = $q.defer();
         setTimeout(function () {
-            if (Math.floor(Math.random() * 100) > 50) {
+            def.notify("en");
+            if (Math.floor(Math.random() * 100) > 90) {
+                def.notify('Las conexiones seguras están habilitadas');
                 def.resolve('Online');
             } else {
+                def.notify('Las conexiones seguras están deshabilitadas');
                 def.reject('El servicio no esta disponible');
             }
         }, 3000);
@@ -137,6 +154,100 @@ function PromesaController($scope, $q) {
             $scope.http = result;
         }, function (error) {
             $scope.http = error;
-        });
+        }, function (no) {
+            console.log("notificacion", no);
+        }
+    );
 
+}
+
+ManyPromesaController.$inject = ['$scope', '$q'];
+function ManyPromesaController($scope, $q) {
+
+    var promesa1 = $q.defer();
+    var promesa2 = $q.defer();
+    var promesa3 = $q.defer();
+
+    setTimeout(function () {
+        promesa1.resolve('Promesa #1 resuelta');
+    }, Math.random() * 1000);
+    setTimeout(function () {
+        promesa2.resolve('Promesa #2 resuelta');
+    }, Math.random() * 1000);
+    setTimeout(function () {
+        promesa3.resolve('Promesa #3 resuelta');
+    }, Math.random() * 1000);
+
+    promesa1.promise.then(mostrar);
+    promesa2.promise.then(mostrar);
+    promesa3.promise.then(mostrar);
+
+    function mostrar(info) {
+        console.log(info);
+    }
+
+    var todas = $q.all([promesa1.promise, promesa2.promise, promesa3.promise]);
+    todas.then(mostrar);
+
+    /*var checkHttp = function (comprobar) {
+        var def = $q.defer();
+        setTimeout(function () {
+            if (comprobar) {
+                def.resolve('Online');
+            } else {
+                def.reject('El servicio no esta disponible');
+            }
+        }, 3000);
+        return def.promise;
+    };*/
+
+    var checkHttp = function (comprobar) {
+        return $q(function (reject, resolve) {
+            setTimeout(function () {
+                if (comprobar) {
+                    resolve('Online');
+                } else {
+                    reject('El servicio no esta disponible');
+                }
+            }, 3000);
+        });
+    };
+
+
+    $scope.accion = function (comprobar) {
+        checkHttp(comprobar).then(function (data) {
+            $scope.test = data;
+        }, function (error) {
+            $scope.test = error;
+        });
+    };
+
+}
+
+
+ScrollController.$inject = ['$scope', '$anchorScroll', '$location'];
+function ScrollController($scope, $anchorScroll, $location) {
+    $scope.ir = function(id){
+        $location.hash("container" + id);
+        $anchorScroll();
+    };
+}
+
+Cache1Controller.$inject = ['$scope', '$cacheFactory', '$log'];
+function Cache1Controller($scope, $cacheFactory, $log) {
+    var msg = $cacheFactory("micache");
+    var vm = this;
+    this.guardar = function(){
+        $log.info(vm.texto);
+        msg.put('mensaje', vm.texto);
+        $log.error($cacheFactory.info());
+    };
+}
+
+Cache2Controller.$inject = ['$scope', '$cacheFactory'];
+function Cache2Controller($scope, $cacheFactory) {
+    var msg = $cacheFactory.get("micache");
+    this.capturar = function(){
+        this.msg = msg.get('mensaje');
+    };
 }

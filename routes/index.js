@@ -18,4 +18,12 @@ router.get('/promesas', function(req, res, next) {
   res.render('promesas', { title: 'promesas' });
 });
 
+router.get('/scroll', function(req, res, next) {
+  res.render('scroll', { title: 'scroll' });
+});
+
+router.get('/cache', function(req, res, next) {
+  res.render('cache', { title: 'cache' });
+});
+
 module.exports = router;

@@ -1,0 +1,20 @@
+extends layout
+
+block content
+    .container
+        h3 Scroll AngularJS
+    .container.row(ng-controller="Cache1Controller as cache1")
+        .col-md-6
+            input.form-control(ng-model="cache1.texto")
+        .col-md-6
+            button.btn(ng-click="cache1.guardar()") Guardar
+    br
+    hr
+    br
+    .container.row(ng-controller="Cache2Controller as cache2")
+        .col-md-6
+            h2 {{cache2.msg}}
+            
+        .col-md-6
+            button.btn(ng-click="cache2.capturar()") Capturar
+            

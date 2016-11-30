@@ -1,5 +1,9 @@
 var app = angular.module('AngularApp', ['ngMessages']);
 
+app.run(['$anchorScroll',function ($anchorScroll) {
+    $anchorScroll.yOffset = 64;
+}]);
+
 app.config(['PlaylistProvider', function (PlaylistProvider) {
 
     var playlist2 = [
@@ -12,7 +16,10 @@ app.config(['PlaylistProvider', function (PlaylistProvider) {
     ];
     PlaylistProvider.concatenar(playlist2);
 
-}]);
+}]).config(['$logProvider', '$compileProvider', function ($logProvider, $compileProvider) {
+        $logProvider.debugEnabled(false);
+        $compileProvider.debugInfoEnabled(false);
+    }]);
 
 app.filter('customFilter', function () {
 

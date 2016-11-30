@@ -1,0 +1,25 @@
+extends layout
+
+block content
+    .container
+        h3 Scroll AngularJS
+    .row(ng-controller="ScrollController")
+        .col-md-3
+            btn.btn(ng-click="ir(1)") Contenido 1
+        .col-md-3
+            btn.btn(ng-click="ir(2)") Contenido 2
+        .col-md-3
+            btn.btn(ng-click="ir(3)") Contenido 3
+        .col-md-3
+            btn.btn(ng-click="ir(4)") Contenido 4
+    br
+    hr
+    br
+    #container1.contenido 
+        h2 Contenido 1
+    #container2.contenido
+        h2 Contenido 2
+    #container3.contenido
+        h2 Contenido 3
+    #container4.contenido
+        h2 Contenido 4
