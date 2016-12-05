@@ -10,12 +10,13 @@ app.controller('ManyPromesaController', ManyPromesaController);
 app.controller('ScrollController', ScrollController);
 app.controller('Cache1Controller', Cache1Controller);
 app.controller('Cache2Controller', Cache2Controller);
+app.controller('JokeController', JokeController);
 
 
-BooksController.$inject = ['$scope'];
-function BooksController($scope) {
+BooksController.$inject = ['$scope', '$http'];
+function BooksController($scope, $http) {
     //$scope.book = book;
-    $scope.books = books;
+    //$scope.books = books;
     $scope.msg = "Mensaje";
     $scope.fecha = 1288323623006;
 
@@ -26,6 +27,27 @@ function BooksController($scope) {
     $scope.$watch('msg', function (newValue, oldValue) {
         console.log("entra", newValue, oldValue);
     });
+
+    $scope.loadBooks = function () {
+        /*$http({
+            method: 'GET',
+            url: 'json/books.json'
+        }).success(function (data, status) {
+            console.log(status, data);
+            $scope.books = data;
+        }).error(function (data, status) {
+            console.log(status, data);
+        });*/
+
+        $http.get('json/books.json')
+            .success(function (data, status) {
+                console.log(status, data);
+                $scope.books = data;
+            }).error(function (data, status) {
+                console.log(status, data);
+            });
+    };
+
 }
 
 CustomController.$inject = ['$scope'];
@@ -108,13 +130,13 @@ function PlaylistUpdateController($scope, PlaylistFactory, PlaylistService, Play
 PromesaController.$inject = ['$scope', '$q', '$timeout'];
 function PromesaController($scope, $q, $timeout) {
 
-    
+
 
     $scope.server = "verificando...";
     $scope.http = "verificando...";
 
-    var checkServer = function(){
-        return $timeout(function(param1){
+    var checkServer = function () {
+        return $timeout(function (param1) {
             return param1;
         }, 2000, true, "Online");
     };
@@ -227,7 +249,7 @@ function ManyPromesaController($scope, $q) {
 
 ScrollController.$inject = ['$scope', '$anchorScroll', '$location'];
 function ScrollController($scope, $anchorScroll, $location) {
-    $scope.ir = function(id){
+    $scope.ir = function (id) {
         $location.hash("container" + id);
         $anchorScroll();
     };
@@ -237,7 +259,7 @@ Cache1Controller.$inject = ['$scope', '$cacheFactory', '$log'];
 function Cache1Controller($scope, $cacheFactory, $log) {
     var msg = $cacheFactory("micache");
     var vm = this;
-    this.guardar = function(){
+    this.guardar = function () {
         $log.info(vm.texto);
         msg.put('mensaje', vm.texto);
         $log.error($cacheFactory.info());
@@ -247,7 +269,34 @@ function Cache1Controller($scope, $cacheFactory, $log) {
 Cache2Controller.$inject = ['$scope', '$cacheFactory'];
 function Cache2Controller($scope, $cacheFactory) {
     var msg = $cacheFactory.get("micache");
-    this.capturar = function(){
+    this.capturar = function () {
         this.msg = msg.get('mensaje');
+    };
+}
+
+JokeController.$inject = ['$scope', '$http'];
+function JokeController($scope, $http) {
+
+    var url = 'https://api.chucknorris.io/jokes/random';
+    $scope.joke = null;
+
+    $scope.updateJoke = function(){
+        $http.get(url)
+            .success(function (data, status) {
+                console.log(status, data);
+                $scope.joke = data;
+            }).error(function (data, status) {
+                console.log(status, data);
+            });
+    };
+
+    $scope.loadJokes = function(){
+        $http.get("http://api.icndb.com/jokes/random/20")
+            .success(function (data, status) {
+                console.log(status, data);
+                $scope.jokes = data.value;
+            }).error(function (data, status) {
+                console.log(status, data);
+            });
     };
 }

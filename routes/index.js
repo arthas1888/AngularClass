@@ -26,4 +26,8 @@ router.get('/cache', function(req, res, next) {
   res.render('cache', { title: 'cache' });
 });
 
+router.get('/joke', function(req, res, next) {
+  res.render('joke', { title: 'cache' });
+});
+
 module.exports = router;

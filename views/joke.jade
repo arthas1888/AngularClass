@@ -1,0 +1,23 @@
+extends layout
+
+block content
+    
+    br
+    .row(ng-controller="JokeController" ng-cloak)
+        .col-md-2
+        div.col-md-8(ng-init="loadJokes()")
+            h2 Peticiones al servidor con $http
+            button.btn.btn-primary(ng-click="updateJoke()") Actualizar broma
+            br
+            br
+            .row.well.well-lg(ng-if="joke")
+                .col-md-3 
+                    img(ng-src="{{joke.icon_url}}", width="100")
+                .col-md-9
+                    h4 Broma: {{ joke.value }}
+            br
+            br
+            div.list-group-item.row(ng-repeat="broma in jokes" )                
+                h5.col-md-3 Broma {{ $index + 1 }}
+                h5.col-md-9 {{broma.joke}}
+        .col-md-2

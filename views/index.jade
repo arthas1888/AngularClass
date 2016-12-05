@@ -7,7 +7,7 @@ block content
   br
   .row
     .col-md-2
-    div.col-md-8(ng-controller='BooksController', ng-cloak)
+    div.col-md-8(ng-controller='BooksController', ng-cloak, ng-init="loadBooks()")
       //hr
       //{{fecha | date:'medium'}}
       //br
