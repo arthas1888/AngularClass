@@ -1,10 +1,15 @@
 app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider
-    .when('/',
+        .when('/',
         {
             templateUrl: "views/songs.html",
             controller: "SongController"
         })
-    .otherwise("/");
+        .when('/create',
+        {
+            templateUrl: "views/song-form.html",
+            controller: "SongCreateController"
+        })
+        .otherwise("/");
 
 }]);

@@ -12,6 +12,7 @@ app.controller('Cache1Controller', Cache1Controller);
 app.controller('Cache2Controller', Cache2Controller);
 app.controller('JokeController', JokeController);
 app.controller('SongController', SongController);
+app.controller('SongCreateController', SongCreateController);
 
 
 BooksController.$inject = ['$scope', '$http'];
@@ -302,8 +303,8 @@ function JokeController($scope, $http) {
     };
 }
 
-SongController.$inject = ['$scope', '$http', 'SongFactory'];
-function SongController($scope, $http, SongFactory) {
+SongController.$inject = ['$scope', '$location', 'SongFactory'];
+function SongController($scope, $location, SongFactory) {
 
     $scope.songs = [];
 
@@ -322,5 +323,14 @@ function SongController($scope, $http, SongFactory) {
             });
         } 
     };
+
+    $scope.create = function(){
+        $location.path("/create");
+    };
+
+}
+
+SongCreateController.$inject = ['$scope', '$location', 'SongFactory'];
+function SongCreateController($scope, $location, SongFactory) {
 
 }
