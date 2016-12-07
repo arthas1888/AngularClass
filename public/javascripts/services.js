@@ -106,8 +106,18 @@ app.factory("SongFactory", ['$http', '$log',
                 });
         };
 
+        var create = function (model) {
+            return $http.post(url, model)
+                .success(function (data, status) {
+                    $log.debug(status, data);
+                }).error(function (data, status) {
+                    $log.error(status, data);
+                });
+        };
+
         return {
             listar: listar,
-            borrar: borrar
+            borrar: borrar,
+            create: create
         };
     }]);

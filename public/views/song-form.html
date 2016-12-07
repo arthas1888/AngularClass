@@ -1,6 +1,6 @@
 <h2>Formulario Canción</h2>
 <br>
-<form name="songForm" ng-submit="songForm.$valid $$ submit()" novalidate>
+<form name="songForm" ng-submit="songForm.$valid && submit()" novalidate>
     <div class="form-group">
         <label for="nombre">Nombre</label>
         <input type="text" class="form-control" id="nombre" placeholder="Nombre" ng-model="model.nombre" name="nombre" required>
