@@ -332,5 +332,12 @@ function SongController($scope, $location, SongFactory) {
 
 SongCreateController.$inject = ['$scope', '$location', 'SongFactory'];
 function SongCreateController($scope, $location, SongFactory) {
+    $scope.model = {};
+    $scope.submit = function(){
 
+    };
+
+    $scope.back = function(){
+        $location.path("/");
+    };
 }
