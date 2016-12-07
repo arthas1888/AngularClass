@@ -27,6 +27,7 @@ gulp.task("min:js", function () {
     return gulp.src([
         'bower_components/angular/angular.js',
         'bower_components/angular-messages/angular-messages.js',
+        'bower_components/angular-route/angular-route.js',
         'bower_components/jquery/dist/jquery.js',
         'bower_components/bootstrap/dist/js/bootstrap.js',], { base: "." })
         .pipe(concat(paths.concatJsDest))

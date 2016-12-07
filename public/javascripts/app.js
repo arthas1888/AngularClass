@@ -1,4 +1,4 @@
-var app = angular.module('AngularApp', ['ngMessages']);
+var app = angular.module('AngularApp', ['ngMessages', 'ngRoute']);
 
 app.run(['$anchorScroll',function ($anchorScroll) {
     $anchorScroll.yOffset = 64;
@@ -17,7 +17,7 @@ app.config(['PlaylistProvider', function (PlaylistProvider) {
     PlaylistProvider.concatenar(playlist2);
 
 }]).config(['$logProvider', '$compileProvider', function ($logProvider, $compileProvider) {
-        $logProvider.debugEnabled(false);
+        //$logProvider.debugEnabled(false);
         $compileProvider.debugInfoEnabled(false);
     }]);
 

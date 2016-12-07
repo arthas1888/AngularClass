@@ -82,3 +82,32 @@ app.provider("Playlist", [function () {
     };
 
 }]);
+
+
+app.factory("SongFactory", ['$http', '$log',
+    function ($http, $log) {
+        var url = "https://vesta.sersoluciones.com:9050/song/";
+
+        var listar = function () {
+            return $http.get(url)
+                .success(function (data, status) {
+                    $log.debug(status, data);
+                }).error(function (data, status) {
+                    $log.error(status, data);
+                });
+        };
+
+        var borrar = function (_id) {
+            return $http.delete(url + _id + "/")
+                .success(function (data, status) {
+                    $log.debug(status, data);
+                }).error(function (data, status) {
+                    $log.error(status, data);
+                });
+        };
+
+        return {
+            listar: listar,
+            borrar: borrar
+        };
+    }]);

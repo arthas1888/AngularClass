@@ -1,0 +1,37 @@
+extends layout
+
+block content
+  //h1= title
+  //p Welcome to #{title}
+
+  br
+  .row
+    .col-md-2
+    div.col-md-8(ng-controller='BooksController', ng-cloak, ng-init="loadBooks()")
+      //hr
+      //{{fecha | date:'medium'}}
+      //br
+      //p {{ msg }}
+      //br
+      //input(type='text', ng-model='msg')
+      //button.btn.btn-primary#btn(type="button", ng-click='msg="ola"') cambiar valor msg
+      //hr
+      input(type='text', ng-model='buscar', placeholder="Buscar...")
+      div(ng-repeat="book in books | filter:buscar", ng-hide="book.agotado")
+        //{{$index}}
+        .row
+          .col-md-6
+            img(ng-src="{{book.image}}", width="200")
+          .col-md-6
+            book-panel(ng-controller="PanelController")
+        br
+        //div(ng-include="'views/book-title.html'")
+        div(book-title)     
+        p {{ book.descripcion | customFilter : "8" }}
+        button.btn.btn-primary(type="button", ng-if="book.canPurchase") Comprar
+        hr      
+    .col-md-2
+
+  hr
+  br
+  

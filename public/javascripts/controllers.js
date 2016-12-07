@@ -11,6 +11,7 @@ app.controller('ScrollController', ScrollController);
 app.controller('Cache1Controller', Cache1Controller);
 app.controller('Cache2Controller', Cache2Controller);
 app.controller('JokeController', JokeController);
+app.controller('SongController', SongController);
 
 
 BooksController.$inject = ['$scope', '$http'];
@@ -280,7 +281,7 @@ function JokeController($scope, $http) {
     var url = 'https://api.chucknorris.io/jokes/random';
     $scope.joke = null;
 
-    $scope.updateJoke = function(){
+    $scope.updateJoke = function () {
         $http.get(url)
             .success(function (data, status) {
                 console.log(status, data);
@@ -290,7 +291,7 @@ function JokeController($scope, $http) {
             });
     };
 
-    $scope.loadJokes = function(){
+    $scope.loadJokes = function () {
         $http.get("http://api.icndb.com/jokes/random/20")
             .success(function (data, status) {
                 console.log(status, data);
@@ -299,4 +300,27 @@ function JokeController($scope, $http) {
                 console.log(status, data);
             });
     };
+}
+
+SongController.$inject = ['$scope', '$http', 'SongFactory'];
+function SongController($scope, $http, SongFactory) {
+
+    $scope.songs = [];
+
+    $scope.load = function () {
+        SongFactory.listar().then(function (response) {
+            console.log(response["data"]);
+            $scope.songs = response["data"];
+        });
+    };
+
+    $scope.delete = function (_id) {
+        var r = confirm("Desea borrar esta canción?");
+        if (r === true) {
+            SongFactory.borrar(_id).then(function(response){
+                $scope.load();
+            });
+        } 
+    };
+
 }
